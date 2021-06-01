@@ -26,4 +26,10 @@ describe Oystercard do
       expect{ subject.deduct 3 }.to change{ subject.balance }.by -3
     end
   end
+  context '#touch_in' do
+    it { is_expected.to respond_to(:touch_in) }
+  end
+  context '#touch_out' do
+    it { is_expected.to respond_to(:touch_out) }
+  end
 end
