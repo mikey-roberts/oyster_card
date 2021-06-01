@@ -11,8 +11,14 @@ describe Oystercard do
     expect(oyster_card).to respond_to(:balance)
   end
 
-  it 'incldues a balance of 0' do
+  it 'includes a balance of 0' do
     oyster_card = Oystercard.new
     expect(oyster_card.balance).to eq(0)
+  end
+
+  it 'can be topped up' do
+    oyster_card = Oystercard.new
+    oyster_card.top_up(10)
+    expect(oyster_card.balance).to eq(10)
   end
 end
