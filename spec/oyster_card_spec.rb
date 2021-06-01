@@ -6,16 +6,11 @@ describe Oystercard do
     expect(subject).to be_kind_of(Oystercard)
   end
 
-  it 'includes a balance' do
-    expect(subject).to respond_to(:balance)
-  end
-
   it 'includes a balance of 0' do
     expect(subject.balance).to eq(0)
   end
 
   context '#top_up' do
-    it { is_expected.to respond_to(:top_up).with(1).argument }
     it 'can be topped up' do
       expect{ subject.top_up 1 }.to change{ subject.balance }.by 1
     end
@@ -26,7 +21,6 @@ describe Oystercard do
     end
   end
   context '#deduct' do
-    it { is_expected.to respond_to(:deduct).with(1).argument }
     it 'deducts amount from balance' do
       subject.top_up(20)
       expect{ subject.deduct 3 }.to change{ subject.balance }.by -3
