@@ -15,6 +15,10 @@ describe Oystercard do
     expect(subject).not_to be_in_journey 
   end 
 
+  it 'has an empty list of journeys by default' do
+    expect(subject.journeys).to be_empty
+  end
+
   context '#top_up' do
     it 'can be topped up' do
       expect{ subject.top_up 1 }.to change{ subject.balance }.by 1
@@ -76,5 +80,13 @@ describe Oystercard do
     subject.touch_in(entry_station)
     subject.touch_out(exit_station)
     expect(subject.exit_station).to eq exit_station
+  end
+  let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
+
+  it 'stores a journey' do
+    subject.top_up(10)
+    subject.touch_in(entry_station)
+    subject.touch_out(exit_station)
+    expect(subject.journeys).to include journey
   end
 end
