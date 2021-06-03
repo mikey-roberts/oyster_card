@@ -2,7 +2,6 @@ require 'oyster_card'
 
 describe Oystercard do
   let(:oyster_card) { Oystercard.new }
-  let(:station){ double :station }
 
   it 'instantiates a class' do
     expect(subject).to be_kind_of(Oystercard)
@@ -37,7 +36,8 @@ describe Oystercard do
   #     subject.top_up(20)
   #     expect{ subject.deduct 3 }.to change{ subject.balance }.by -3
   #   end
-
+  let(:station){ double :station }
+  
   context '#touch_in' do
     it 'Is now in journey' do
     subject.top_up(10)
@@ -53,12 +53,12 @@ describe Oystercard do
     it 'Is no longer in journey' do
     subject.top_up(10)
     subject.touch_in(station)
-    subject.touch_out
+    subject.touch_out(station)
     expect(subject).not_to be_in_journey
     end
     it 'charge made on touch out' do
       subject.top_up(10)
-      expect { subject.touch_out }.to change{ subject.balance }.by( -Oystercard::MINIMUM_CHARGE )
+      expect { subject.touch_out(station) }.to change{ subject.balance }.by( -Oystercard::MINIMUM_CHARGE )
     end
   end
   context '#entry_station' do 
@@ -67,5 +67,14 @@ describe Oystercard do
       subject.touch_in(station)
       expect(subject.entry_station).to eq station
     end
+  end
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station }
+
+  it 'stores exit station' do
+    subject.top_up(10)
+    subject.touch_in(entry_station)
+    subject.touch_out(exit_station)
+    expect(subject.exit_station).to eq exit_station
   end
 end
